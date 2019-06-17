@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageIconUrl>https://pbs.twimg.com/profile_images/850119583990247424/1cYNUekF_400x400.jpg</PackageIconUrl>
+    <Authors>Panoramic Data Limited</Authors>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/panoramicdata/NetBrain.Api</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/panoramicdata/NetBrain.Api</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>NetBrain REST API</PackageTags>
+    <PackageReleaseNotes>Alpha release</PackageReleaseNotes>
+    <Version>0.1</Version>
+    <Copyright>Panoramic Data Limited</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+</Project>
