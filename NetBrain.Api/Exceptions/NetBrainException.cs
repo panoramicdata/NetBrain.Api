@@ -6,7 +6,7 @@ namespace NetBrain.Api.Exceptions
 	{
 		private readonly Response _response;
 
-		public NetBrainException(Response response)
+		protected NetBrainException(Response response)
 		{
 			_response = response;
 		}

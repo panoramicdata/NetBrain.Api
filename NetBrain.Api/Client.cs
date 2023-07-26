@@ -1,11 +1,11 @@
-﻿using NetBrain.Api.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NetBrain.Api.Models;
+using Newtonsoft.Json;
 
 namespace NetBrain.Api
 {
@@ -13,7 +13,7 @@ namespace NetBrain.Api
 	{
 		private readonly NetBrainCredential _credential;
 		private readonly HttpClient _httpClient;
-		private DomainSelection _domainSelection;
+		private readonly DomainSelection _domainSelection;
 
 		public Client(string username, string password)
 		{
@@ -33,10 +33,16 @@ namespace NetBrain.Api
 			: this(username, password)
 			=> _domainSelection = new DomainSelection { TenantId = tenantId, DomainId = domainId };
 
-		public async Task ConnectAsync(CancellationToken cancellationToken = default)
+		//ConnectAsync
+		public async Task ConnectAsync()
+		{
+			await ConnectAsync(CancellationToken.None);
+		}
+
+		public async Task ConnectAsync(CancellationToken cancellationToken)
 		{
 			var tokenResponse = await PostAsync<TokenResponse>("Session", _credential, cancellationToken)
-				.ConfigureAwait(false);
+									.ConfigureAwait(false);
 			_httpClient.DefaultRequestHeaders.Add("Token", tokenResponse.Token);
 
 			// Once connected, the credential values are destroyed
@@ -48,9 +54,14 @@ namespace NetBrain.Api
 			}
 		}
 
+		//SetCurrentDomainAsync
+		public async Task SetCurrentDomainAsync(DomainSelection domainSelection)
+		{
+			await SetCurrentDomainAsync(domainSelection, CancellationToken.None);
+		}
 		public async Task SetCurrentDomainAsync(
 			DomainSelection domainSelection,
-			CancellationToken cancellationToken = default)
+			CancellationToken cancellationToken)
 		{
 			await PutAsync<DomainSelection>(
 				"Session/CurrentDomain",
@@ -59,7 +70,13 @@ namespace NetBrain.Api
 				.ConfigureAwait(false);
 		}
 
-		public async Task<List<SiteInfo>> GetSiteInfoAsync(string sitePath, CancellationToken cancellationToken = default)
+		//GetSiteInfoAsync
+		public async Task<List<SiteInfo>> GetSiteInfoAsync(string sitePath)
+		{
+			return await GetSiteInfoAsync(sitePath, CancellationToken.None);
+		}
+
+		public async Task<List<SiteInfo>> GetSiteInfoAsync(string sitePath, CancellationToken cancellationToken)
 		{
 			return (await GetAsync<SiteInfoResponse>("CMDB/Sites/SiteInfo", cancellationToken).ConfigureAwait(false)).Items;
 		}
@@ -69,14 +86,20 @@ namespace NetBrain.Api
 			return (await GetAsync<DomainResponse>($"CMDB/Domains?tenantId={tenantId}", cancellationToken).ConfigureAwait(false)).Items;
 		}
 
+		//GetAllAsync
+		public async Task<List<T>> GetAllAsync<T>()
+		{
+			return await GetAllAsync<T>(CancellationToken.None);
+		}
 		public async Task<List<T>> GetAllAsync<T>(CancellationToken cancellationToken = default)
 		{
-			switch (typeof(T).Name)
+			if (typeof(T).Name == nameof(Tenant))
 			{
-				case nameof(Tenant):
-					return (await GetAsync<TenantResponse>("CMDB/Tenants", cancellationToken).ConfigureAwait(false)).Items as List<T>;
-				default:
-					throw new NotSupportedException($"Type {typeof(T).Name} not supported.");
+				return (await GetAsync<TenantResponse>("CMDB/Tenants", cancellationToken).ConfigureAwait(false)).Items as List<T>;
+			}
+			else
+			{
+				throw new NotSupportedException($"Type {typeof(T).Name} not supported.");
 			}
 		}
 

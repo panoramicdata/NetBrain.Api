@@ -16,7 +16,7 @@ namespace NetBrain.Api.Test
 		{
 			using (var client = new Client("XXXXXXXXXXX", "XXXXXXXXXXX"))
 			{
-				var exception = Assert.ThrowsAsync<AuthenticationException>(async () => await client.ConnectAsync().ConfigureAwait(false));
+				_ = Assert.ThrowsAsync<AuthenticationException>(async () => await client.ConnectAsync().ConfigureAwait(false));
 			}
 		}
 
