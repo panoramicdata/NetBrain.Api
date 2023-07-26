@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NetBrain.Api.Exceptions;
 using Xunit;
 using Xunit.Abstractions;
@@ -11,7 +12,7 @@ namespace NetBrain.Api.Test
 		}
 
 		[Fact]
-		public async void Connect_InvalidCredentials_ThrowsException()
+		public async Task Connect_InvalidCredentials_ThrowsException()
 		{
 			using (var client = new Client("XXXXXXXXXXX", "XXXXXXXXXXX"))
 			{
@@ -20,7 +21,7 @@ namespace NetBrain.Api.Test
 		}
 
 		[Fact]
-		public async void Connect_Succeeds()
+		public async Task Connect_Succeeds()
 		{
 			using (var client = new Client(Config.Username, Config.Password))
 			{

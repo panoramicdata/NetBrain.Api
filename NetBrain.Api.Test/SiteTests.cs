@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -11,7 +12,7 @@ namespace NetBrain.Api.Test
 		}
 
 		[Fact]
-		public async void GetSites_Succeeds()
+		public async Task GetSites_Succeeds()
 		{
 			var items = await Client
 				.GetSiteInfoAsync("My Network")
