@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
+using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
 namespace NetBrain.Api.Test
@@ -16,7 +16,7 @@ namespace NetBrain.Api.Test
 
 			Config = new TestPortalConfig(Logger);
 
-			switch(connectionMode)
+			switch (connectionMode)
 			{
 				case ConnectionMode.None:
 					break;
@@ -28,6 +28,8 @@ namespace NetBrain.Api.Test
 					Client = new Client(Config.Username, Config.Password, Config.TenantId, Config.DomainId);
 					Client.ConnectAsync().GetAwaiter().GetResult();
 					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(connectionMode), connectionMode, null);
 			}
 		}
 
