@@ -81,6 +81,12 @@ namespace NetBrain.Api
 			return (await GetAsync<SiteInfoResponse>("CMDB/Sites/SiteInfo", cancellationToken).ConfigureAwait(false)).Items;
 		}
 
+		//GetAllDomainsAsync
+		public async Task<List<Domain>> GetAllDomainsAsync(Guid tenantId)
+		{
+			return await GetAllDomainsAsync(tenantId, CancellationToken.None);
+		}
+
 		public async Task<List<Domain>> GetAllDomainsAsync(Guid tenantId, CancellationToken cancellationToken = default)
 		{
 			return (await GetAsync<DomainResponse>($"CMDB/Domains?tenantId={tenantId}", cancellationToken).ConfigureAwait(false)).Items;
@@ -91,7 +97,7 @@ namespace NetBrain.Api
 		{
 			return await GetAllAsync<T>(CancellationToken.None);
 		}
-		public async Task<List<T>> GetAllAsync<T>(CancellationToken cancellationToken = default)
+		public async Task<List<T>> GetAllAsync<T>(CancellationToken cancellationToken)
 		{
 			if (typeof(T).Name == nameof(Tenant))
 			{
