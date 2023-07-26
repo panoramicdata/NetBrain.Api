@@ -87,7 +87,7 @@ namespace NetBrain.Api
 			return await GetAllDomainsAsync(tenantId, CancellationToken.None);
 		}
 
-		public async Task<List<Domain>> GetAllDomainsAsync(Guid tenantId, CancellationToken cancellationToken = default)
+		public async Task<List<Domain>> GetAllDomainsAsync(Guid tenantId, CancellationToken cancellationToken)
 		{
 			return (await GetAsync<DomainResponse>($"CMDB/Domains?tenantId={tenantId}", cancellationToken).ConfigureAwait(false)).Items;
 		}
