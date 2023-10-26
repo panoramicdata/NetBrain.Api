@@ -1,5 +1,6 @@
-﻿using NetBrain.Api.Models;
-using System;
+﻿using System;
+using System.Threading.Tasks;
+using NetBrain.Api.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -12,7 +13,7 @@ namespace NetBrain.Api.Test
 		}
 
 		[Fact]
-		public async void GetTenants_Succeeds()
+		public async Task GetTenants_Succeeds()
 		{
 			var tenants = await Client
 				.GetAllAsync<Tenant>()
